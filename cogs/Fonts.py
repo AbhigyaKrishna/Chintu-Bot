@@ -3,6 +3,7 @@ import random
 
 import discord
 from discord.ext import commands
+from main import DEFAULT_PREFIX
 
 fonts = json.loads(open('./main_resources/Assets/fonts.json',
                         encoding='utf-8').read())
@@ -48,7 +49,8 @@ class Fonts(commands.Cog):
         """Display all Font List"""
 
         embed = discord.Embed(title="Fonts List",
-                              color=discord.Colour.green())
+                              description=f"Use {DEFAULT_PREFIX}fontify <fontname> <text> to change text style",
+                              color=discord.Colour.orange())
 
         for key, value in fonts.items():
             if key == 'normal':
@@ -58,9 +60,9 @@ class Fonts(commands.Cog):
         embed.add_field(name="random", value="Random letters")
         await ctx.send(embed=embed)
 
-    @commands.command(name="font")
+    @commands.command(name="fontify")
     @commands.cooldown(rate=1, per=5.0, type=commands.BucketType.user)
-    async def font(self, ctx, font_type: str, *, message):
+    async def fontify(self, ctx, font_type: str, *, message):
         """Change font and send"""
         if font_type in fonts or font_type == 'random':
             text = fontify(message, font_type)
